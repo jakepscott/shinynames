@@ -19,10 +19,10 @@ themes <- list("Light" = theme_light(),"Minimal" = theme_minimal(), "Grey" = the
                "Calc" = theme_calc(), "Wall Street" = theme_wsj(), "Stata" = theme_stata(), 
                "Tufte"= theme_tufte())
 
-test <- babynames %>% group_by(name) %>% summarise(total=sum(n)) %>% filter(total>100000)
+common_names <- babynames %>% group_by(name) %>% summarise(total=sum(n)) %>% filter(total>100000)
 
 
-babynames <- semi_join(babynames, test, by="name")
+babynames <- semi_join(babynames, common_names, by="name")
 unique_names <- babynames %>% select(name) %>% distinct(name) %>% arrange(name) %>% pull()
 
   
