@@ -1,0 +1,12 @@
+name: ShinyNames
+title: ShinyNames
+username:
+account: jake-scott
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 2295692
+bundleId: 3145258
+url: https://jake-scott.shinyapps.io/shinynames/
+when: 1589424123.68993
+asMultiple: FALSE
+asStatic: FALSE
