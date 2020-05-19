@@ -1,11 +1,3 @@
-#
-# This is a Shiny web application. You can run the application by clicking
-# the 'Run App' button above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
 library(shiny)
 library(ggplot2)
 library(tidyverse)
@@ -23,11 +15,11 @@ themes <- list("Light" = theme_light(),"Minimal" = theme_minimal(), "Grey" = the
                "Calc" = theme_calc(), "Wall Street" = theme_wsj(), "Stata" = theme_stata(), 
                "Tufte"= theme_tufte())
 
-common_names <- babynames %>% group_by(name) %>% summarise(total=sum(n)) %>% filter(total>100000)
+common_names <- babynames %>% group_by(name) %>% dplyr::summarise(total=sum(n)) %>% dplyr::filter(total>100000)
 
 
 babynames <- semi_join(babynames, common_names, by="name")
-unique_names <- babynames %>% select(name) %>% distinct(name) %>% arrange(name) %>% pull()
+unique_names <- babynames %>% dplyr::select(name) %>% distinct(name) %>% arrange(name) %>% pull()
 
 
 ui <- fluidPage(
@@ -66,10 +58,10 @@ server <- function(input, output, session) {
   names_generator <- function(names, measure="Frequency", min=1880,max=2020) {
     plot_theme <- themes[[input$theme]]
     if (measure=="Frequency") {
-      names <- babynames %>% filter(name %in% names) %>% 
-        filter(year>=min, year<=max) %>% 
+      names <- babynames %>% dplyr::filter(name %in% names) %>% 
+        dplyr::filter(year>=min, year<=max) %>% 
         group_by(name,year) %>% 
-        summarise(n=sum(n)) %>% ungroup()
+        dplyr::summarise(n=sum(n)) %>% ungroup()
       
       ggplot(names) + 
         geom_line(aes(x=year,y=n, color=name), lwd=1) +
@@ -84,8 +76,11 @@ server <- function(input, output, session) {
               plot.title.position = "plot")
     } else { 
       if (measure=="Proportion") {
-        names <- babynames %>% filter(name %in% names) %>% group_by(name,year) %>% 
-          summarise(prop=sum(prop)) %>% ungroup()
+        names <- babynames %>% dplyr::filter(name %in% names) %>% 
+          dplyr::filter(year>=min, year<=max) %>% 
+          group_by(name,year) %>%
+          dplyr::summarise(prop=sum(prop)) %>% 
+          ungroup()
         
         ggplot(names) + 
           geom_line(aes(x=year,y=prop, color=name)) +
@@ -100,9 +95,12 @@ server <- function(input, output, session) {
                 plot.title.position = "plot")
       } else {
         if (measure=="Normalized") {
-          names <- babynames %>% filter(name %in% names) %>% group_by(name,year) %>% 
-            summarise(prop=sum(prop)) %>% 
-            mutate(mean=mean(prop), sd=sd(prop), diff=(prop-mean)/sd)
+          names <- babynames %>% dplyr::filter(name %in% names) %>% 
+            dplyr::filter(year>=min, year<=max) %>% 
+            group_by(name,year) %>%
+            dplyr::summarise(prop=sum(prop)) %>% 
+            mutate(mean=mean(prop), sd=sd(prop), 
+                   diff=(prop-mean)/sd)
           
           ggplot(names) + 
             geom_line(aes(x=year,y=diff, color=name)) +
