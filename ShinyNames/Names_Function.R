@@ -15,7 +15,7 @@ babynames <- semi_join(babynames, common_names, by="name")
 unique_names <- babynames %>% dplyr::select(name) %>% distinct(name) %>% arrange(name) %>% pull()
 
 #Setting Up Function
-names_generator <- function(names, measure="Frequency", min=1880,max=2020, theme=theme_minimal()) {
+names_generator <- function(names="Jacob", measure="Frequency", min=1880,max=2020, theme=theme_minimal()) {
   if (measure=="Frequency") {
     names <- babynames %>% dplyr::filter(name %in% names) %>% 
       dplyr::filter(year>=min, year<=max) %>% 
