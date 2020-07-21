@@ -1,6 +1,6 @@
 # Shiny Names
 
-Very simple Shiny app built in R that allows a user to explore the evolution of given names over time in the US. This was built to help me refresh myself on Shiny. Not meant to be stunningly gorgeous or groundbreakingly insightful, just meant to be a fun way to pass the time!
+Very simple Shiny app built in R that allows a user to explore the evolution of given names over time in the US, using the [Babynames](https://cran.r-project.org/web/packages/babynames/babynames.pdf) package. The Babynames package includes US baby names provided by the SSA, including all names used for 5 or more children. This app was built to help me refresh myself on Shiny. Not meant to be stunningly gorgeous or groundbreakingly insightful, just meant to be a fun way to pass the time!
 
 ## Getting Started
 
